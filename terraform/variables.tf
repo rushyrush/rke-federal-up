@@ -1,27 +1,51 @@
-variable "agent_instance_type" {
-  default = "m5.large"
+
+variable "aws_region" {
+  default = "us-gov-west-1" # update ami if changed
 }
-variable "server_instance_type" {
-  default = "m5.large"
+
+variable "cluster_name" {
+  default = "rke2"
 }
-variable "asg" {
-  default = { min : 3, max : 5, desired : 3 }
-}
+# server config
+
 variable "servers" {
   default = 1
 }
-variable "ami" {
-  default = "ami-84556de5"
+
+variable "server_instance_type" {
+  default = "m5.large"
 }
+
+variable "server_storage" {
+  default = {
+    "size" = 30
+    type   = "gp2"
+  }
+}
+# agent config
+
+variable "agent_instance_type" {
+  default = "m5.large"
+}
+
+variable "asg" {
+  default = { min : 3, max : 5, desired : 3 } # agent count
+}
+
 variable "agent_storage" {
   default = {
     "size" = 100
     type   = "gp2"
   }
 }
-variable "server_storage" {
+
+variable "ami" {
+  default = "ami-84556de5" # ubuntu 20.04
+}
+
+variable "tags" {
   default = {
-    "size" = 30
-    type   = "gp2"
+    "terraform" = "true",
+    "env"       = "rke2",
   }
 }
