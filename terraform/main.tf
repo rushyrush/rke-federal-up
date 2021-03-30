@@ -46,6 +46,7 @@ module "rke2" {
   ssh_authorized_keys   = [tls_private_key.ssh.public_key_openssh]
   controlplane_internal = false # Note this defaults to best practice of true, but is explicitly set to public for demo purposes
   instance_type         = var.server_instance_type
+  block_device_mappings = var.server_storage
   tags                  = local.tags
 }
 
@@ -60,7 +61,7 @@ module "agents" {
   ami                    = var.ami
   ssh_authorized_keys    = [tls_private_key.ssh.public_key_openssh]
   tags                   = local.tags
-  block_device_mappings  = var.block_device_mappings
+  block_device_mappings  = var.agent_storage
   asg                    = var.asg
   instance_type          = var.agent_instance_type
   cluster_data           = module.rke2.cluster_data

@@ -13,9 +13,15 @@ variable "servers" {
 variable "ami" {
   default = "ami-84556de5"
 }
-variable "block_device_mappings" {
+variable "agent_storage" {
   default = {
     "size" = 100
+    type   = "gp2"
+  }
+}
+variable "server_storage" {
+  default = {
+    "size" = 30
     type   = "gp2"
   }
 }
