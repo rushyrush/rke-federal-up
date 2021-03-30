@@ -31,10 +31,10 @@ module "rke2" {
   subnets               = [data.aws_subnet.default.id]
   ami                   = var.ami
   ssh_authorized_keys   = [tls_private_key.ssh.public_key_openssh]
+  tags                  = var.tags
   controlplane_internal = false # Note this defaults to best practice of true, but is explicitly set to public for demo purposes
   instance_type         = var.server_instance_type
   block_device_mappings = var.server_storage
-  tags                  = var.tags
 }
 
 module "agents" {
@@ -45,9 +45,9 @@ module "agents" {
   ami                    = var.ami
   ssh_authorized_keys    = [tls_private_key.ssh.public_key_openssh]
   tags                   = var.tags
-  block_device_mappings  = var.agent_storage
   asg                    = var.asg
   instance_type          = var.agent_instance_type
+  block_device_mappings  = var.agent_storage
   cluster_data           = module.rke2.cluster_data
 }
 
