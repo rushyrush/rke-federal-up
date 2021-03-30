@@ -34,17 +34,11 @@ variable "asg" {
 
 variable "agent_storage" {
   default = {
-    "size" = 100
+    "size" = 50
     type   = "gp2"
   }
 }
 
-variable "agent_storage2" {
-  default = {
-    "size" = 100
-    type   = "gp2"
-  }
-}
 
 variable "ami" {
   default = "ami-84556de5" # ubuntu 20.04

@@ -38,7 +38,7 @@ module "rke2" {
 }
 
 module "agents" {
-  source = "git::https://github.com/rancherfederal/rke2-aws-tf.git//modules/agent-nodepool"
+  source = "./agent-nodepool"
   name                   = "generic"
   vpc_id                 = data.aws_vpc.default.id
   subnets                = [data.aws_subnet.default.id]
@@ -48,7 +48,6 @@ module "agents" {
   asg                    = var.asg
   instance_type          = var.agent_instance_type
   block_device_mappings  = var.agent_storage
-  block_device_mappings2  = var.agent_storage2
   cluster_data           = module.rke2.cluster_data
 }
 
@@ -73,43 +72,4 @@ resource "null_resource" "kubeconfig" {
     interpreter = ["bash", "-c"]
     command     = "aws s3 cp ${module.rke2.kubeconfig_path} rke2.yaml"
   }
-}
-
-resource "aws_launch_template" "this" {
-  name                   = "${var.name}-rke2-nodepool"
-  image_id               = var.ami
-  instance_type          = var.instance_type
-  user_data              = var.userdata
-  vpc_security_group_ids = concat([aws_security_group.this.id], var.vpc_security_group_ids)
-
-  block_device_mappings {
-    {
-    device_name = lookup(var.block_device_mappings, "device_name", "/dev/sda1")
-      ebs {
-        volume_type           = lookup(var.block_device_mappings, "type", null)
-        volume_size           = lookup(var.block_device_mappings, "size", null)
-        iops                  = lookup(var.block_device_mappings, "iops", null)
-        kms_key_id            = lookup(var.block_device_mappings, "kms_key_id", null)
-        encrypted             = lookup(var.block_device_mappings, "encrypted", null)
-        delete_on_termination = lookup(var.block_device_mappings, "delete_on_termination", null)
-      }
-    },  
-    {
-    device_name = lookup(var.block_device_mappings, "device_name", "/dev/sdb1")  
-      ebs {
-        volume_type           = lookup(var.block_device_mappings2, "type", null)
-        volume_size           = lookup(var.block_device_mappings2, "size", null)
-        iops                  = lookup(var.block_device_mappings, "iops", null)
-        kms_key_id            = lookup(var.block_device_mappings, "kms_key_id", null)
-        encrypted             = lookup(var.block_device_mappings, "encrypted", null)
-        delete_on_termination = lookup(var.block_device_mappings, "delete_on_termination", null)
-      }
-    }  
-  }
-
-  iam_instance_profile {
-    name = var.iam_instance_profile
-  }
-
-  tags = merge({}, var.tags)
 }
