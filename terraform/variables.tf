@@ -1,4 +1,3 @@
-
 variable "aws_region" {
   default = "us-gov-west-1" # update ami if changed
 }
@@ -6,8 +5,8 @@ variable "aws_region" {
 variable "cluster_name" {
   default = "rke2"
 }
-# server config
 
+# server config
 variable "servers" {
   default = 1
 }
@@ -22,8 +21,8 @@ variable "server_storage" {
     type   = "gp2"
   }
 }
-# agent config
 
+# agent config
 variable "agent_instance_type" {
   default = "m5.large"
 }
@@ -38,7 +37,6 @@ variable "agent_storage" {
     type   = "gp2"
   }
 }
-
 
 variable "ami" {
   default = "ami-84556de5" # ubuntu 20.04

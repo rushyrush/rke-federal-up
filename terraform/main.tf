@@ -38,7 +38,7 @@ module "rke2" {
 }
 
 module "agents" {
-  source = "./agent-nodepool"
+  source  = "git::https://github.com/rancherfederal/rke2-aws-tf.git//modules/agent-nodepool"
   name                   = "generic"
   vpc_id                 = data.aws_vpc.default.id
   subnets                = [data.aws_subnet.default.id]
