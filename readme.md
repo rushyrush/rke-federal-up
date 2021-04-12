@@ -9,3 +9,6 @@ terraform init
 terraform apply
 ```
 Kubeconfig is dumped into working directory (`./terraform`) as `rke2.yaml`
+```
+export KUBECONFIG="$PWD"/rke2.yaml
+```
