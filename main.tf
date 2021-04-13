@@ -52,8 +52,6 @@ module "agents" {
   pre_userdata           = var.agent_pre_userdata
   cluster_data           = module.rke2.cluster_data
   enable_ccm             = var.enable_ccm
-  controlplane_internal  = var.controlplane_internal
-
 }
 
 resource "aws_security_group_rule" "rke2_ssh" {
