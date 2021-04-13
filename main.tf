@@ -73,8 +73,17 @@ resource "null_resource" "kubeconfig" {
 
   provisioner "local-exec" {
     interpreter = ["bash", "-c"]
+    command     = "aws s3 cp ${module.rke2.kubeconfig_path} rke2.yaml"
+  }
+}
+
+resource "null_resource" "k8s-additions" {
+  depends_on = null_resource.kubeconfig
+
+  provisioner "local-exec" {
+    interpreter = ["bash", "-c"]
     command     = <<-EOT
-      aws s3 cp ${module.rke2.kubeconfig_path} rke2.yaml
+      export KUBECONFIG="$PWD"/rke2.yaml
       kubectl patch psp system-unrestricted-psp  -p '{"metadata": {"annotations":{"seccomp.security.alpha.kubernetes.io/allowedProfileNames": "*"}}}'
       kubectl patch psp global-unrestricted-psp  -p '{"metadata": {"annotations":{"seccomp.security.alpha.kubernetes.io/allowedProfileNames": "*"}}}'
       kubectl patch psp global-restricted-psp  -p '{"metadata": {"annotations":{"seccomp.security.alpha.kubernetes.io/allowedProfileNames": "*"}}}'
@@ -82,5 +91,4 @@ resource "null_resource" "kubeconfig" {
     EOT
   }
 }
-
 
