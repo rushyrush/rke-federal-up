@@ -33,7 +33,7 @@ variable "asg" {
 
 variable "agent_storage" {
   default = {
-    "size" = 50
+    "size" = 400
     type   = "gp2"
   }
 }

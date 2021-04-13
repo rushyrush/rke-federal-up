@@ -80,3 +80,24 @@ resource "null_resource" "kubeconfig" {
   }
 }
 
+
+
+provider "helm" {
+  kubernetes {
+    config_path = "rke2.yaml"
+  }
+}
+
+resource "helm_release" "longhorn" {
+  name             = "longhorn"
+  namespace        = "longhorn-system"
+  create_namespace = "true"
+  repository       = "https://charts.longhorn.io/"
+  chart            = "longhorn/longhorn"
+
+  set {
+    name  = "service.type"
+    value = "ClusterIP"
+  }
+}
+
