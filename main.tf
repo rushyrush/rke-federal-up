@@ -35,6 +35,8 @@ module "rke2" {
   controlplane_internal = false # Note this defaults to best practice of true, but is explicitly set to public for demo purposes
   instance_type         = var.server_instance_type
   block_device_mappings = var.server_storage
+  enable_ccm            = var.enable_ccm
+  controlplane_internal = var.controlplane_internal
 }
 
 module "agents" {
@@ -50,6 +52,9 @@ module "agents" {
   block_device_mappings  = var.agent_storage
   pre_userdata           = var.agent_pre_userdata
   cluster_data           = module.rke2.cluster_data
+  enable_ccm             = var.enable_ccm
+  controlplane_internal  = var.controlplane_internal
+
 }
 
 resource "aws_security_group_rule" "rke2_ssh" {
@@ -76,26 +81,9 @@ resource "null_resource" "kubeconfig" {
       kubectl patch psp system-unrestricted-psp  -p '{"metadata": {"annotations":{"seccomp.security.alpha.kubernetes.io/allowedProfileNames": "*"}}}'
       kubectl patch psp global-unrestricted-psp  -p '{"metadata": {"annotations":{"seccomp.security.alpha.kubernetes.io/allowedProfileNames": "*"}}}'
       kubectl patch psp global-restricted-psp  -p '{"metadata": {"annotations":{"seccomp.security.alpha.kubernetes.io/allowedProfileNames": "*"}}}'
+      kubectl apply -f ./dependencies/ebs-sc.yaml
     EOT
   }
 }
 
-
-
-provider "helm" {
-  kubernetes {
-    config_path = "rke2.yaml"
-  }
-}
-
-resource "helm_release" "longhorn" {
-  name             = "longhorn"
-  namespace        = "longhorn-system"
-  create_namespace = "true"
-  repository       = "https://charts.longhorn.io/"
-  chart            = "longhorn"
-  depends_on = [
-    null_resource.kubeconfig,
-  ]  
-}
 

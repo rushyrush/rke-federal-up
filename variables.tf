@@ -28,14 +28,22 @@ variable "agent_instance_type" {
 }
 
 variable "asg" {
-  default = { min : 4, max : 5, desired : 4 } # agent count
+  default = { min : 3, max : 5, desired : 3 } # agent count
 }
 
 variable "agent_storage" {
   default = {
-    "size" = 400
+    "size" = 30
     type   = "gp2"
   }
+}
+
+variable "enable_autoscaler" {
+  default = false
+}
+
+variable "agent_spot" {
+  default = false
 }
 
 variable "ami" {
@@ -53,6 +61,9 @@ variable "agent_pre_userdata" {
   description = "Custom userdata to run immediately before rke2 node attempts to join cluster, after required rke2, dependencies are installed"
   type        = string
   default     = <<EOF
+# Configure aws cli default region to current region
+aws configure set default.region $(curl -s http://169.254.169.254/latest/meta-data/placement/region)
+
 # Tune vm sysctl for elasticsearch
 sysctl -w vm.max_map_count=524288
 echo 'vm.max_map_count=262144' > /etc/sysctl.d/vm-max_map_count.conf
@@ -73,3 +84,12 @@ modprobe xt_statistic
 printf "xt_REDIRECT\nxt_owner\nxt_statistic\n" | sudo tee -a /etc/modules
 EOF
 }
+
+variable "controlplane_internal" {
+  default = true
+}
+
+variable "enable_ccm" {
+  default = true
+}
+
