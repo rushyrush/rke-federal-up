@@ -77,7 +77,7 @@ resource "null_resource" "kubeconfig" {
   }
 }
 
-resource "null_resource" "k8s-additions" {
+resource "null_resource" "k8s_additions" {
   depends_on = null_resource.kubeconfig
 
   provisioner "local-exec" {
