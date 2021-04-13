@@ -92,8 +92,8 @@ resource "helm_release" "longhorn" {
   name             = "longhorn"
   namespace        = "longhorn-system"
   create_namespace = "true"
-  repository       = "https://charts.longhorn.io/"
-  chart            = "longhorn/longhorn"
+  repository       = "https://charts.longhorn.io/longhorn"
+  chart            = "longhorn"
   depends_on = [
     null_resource.kubeconfig,
   ]  
