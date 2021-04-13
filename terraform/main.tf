@@ -48,6 +48,7 @@ module "agents" {
   asg                    = var.asg
   instance_type          = var.agent_instance_type
   block_device_mappings  = var.agent_storage
+  pre_userdata           = var.agent_pre_userdata
   cluster_data           = module.rke2.cluster_data
 }
 
@@ -70,6 +71,12 @@ resource "null_resource" "kubeconfig" {
 
   provisioner "local-exec" {
     interpreter = ["bash", "-c"]
-    command     = "aws s3 cp ${module.rke2.kubeconfig_path} rke2.yaml"
+    command     = <<-EOT
+      aws s3 cp ${module.rke2.kubeconfig_path} rke2.yaml
+      kubectl patch psp system-unrestricted-psp  -p '{"metadata": {"annotations":{"seccomp.security.alpha.kubernetes.io/allowedProfileNames": "*"}}}'
+      kubectl patch psp global-unrestricted-psp  -p '{"metadata": {"annotations":{"seccomp.security.alpha.kubernetes.io/allowedProfileNames": "*"}}}'
+      kubectl patch psp global-restricted-psp  -p '{"metadata": {"annotations":{"seccomp.security.alpha.kubernetes.io/allowedProfileNames": "*"}}}'
+    EOT
   }
 }
+

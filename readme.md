@@ -1,6 +1,12 @@
 [See Rancher Federal Docs](https://github.com/rancherfederal/rke2-aws-tf)
 
-Deploy RKE2 to AWS.
+### Deploy RKE2 to AWS.
+
+### Pre Reqs
+- `terrform`
+- `awscli`
+- `kubectl`
+- `helm` v3
 
 ```
 cd ./terraform
