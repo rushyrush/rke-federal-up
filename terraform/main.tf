@@ -94,10 +94,5 @@ resource "helm_release" "longhorn" {
   create_namespace = "true"
   repository       = "https://charts.longhorn.io/"
   chart            = "longhorn/longhorn"
-
-  set {
-    name  = "service.type"
-    value = "ClusterIP"
-  }
 }
 
