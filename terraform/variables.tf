@@ -55,6 +55,10 @@ variable "agent_pre_userdata" {
   default     = <<EOF
 # Tune vm sysctl for elasticsearch
 sysctl -w vm.max_map_count=524288
+echo 'vm.max_map_count=262144' > /etc/sysctl.d/vm-max_map_count.conf
+
+# longhorn RWX nfs req
+apt install nfs-common -y
 
 # SonarQube host pre-requisites
 sysctl -w fs.file-max=131072
