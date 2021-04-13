@@ -32,7 +32,6 @@ module "rke2" {
   ami                   = var.ami
   ssh_authorized_keys   = [tls_private_key.ssh.public_key_openssh]
   tags                  = var.tags
-  controlplane_internal = false # Note this defaults to best practice of true, but is explicitly set to public for demo purposes
   instance_type         = var.server_instance_type
   block_device_mappings = var.server_storage
   enable_ccm            = var.enable_ccm
