@@ -27,6 +27,10 @@ variable "agent_instance_type" {
   default = "m5a.large"
 }
 
+variable "enable_autoscaler" {
+  default = false
+}
+
 variable "asg" {
   default = { min : 3, max : 5, desired : 3 } # agent count
 }
@@ -36,10 +40,6 @@ variable "agent_storage" {
     "size" = 30
     type   = "gp2"
   }
-}
-
-variable "enable_autoscaler" {
-  default = false
 }
 
 variable "agent_spot" {
@@ -86,7 +86,7 @@ EOF
 }
 
 variable "controlplane_internal" {
-  default = true
+  default = false
 }
 
 variable "enable_ccm" {
