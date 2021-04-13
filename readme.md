@@ -6,10 +6,8 @@
 - `terrform`
 - `awscli`
 - `kubectl`
-- `helm` v3
 
 ```
-cd ./terraform
 # update varibles.tf 
 terraform init
 terraform apply

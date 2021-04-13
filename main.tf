@@ -83,12 +83,11 @@ resource "null_resource" "k8s_additions" {
   provisioner "local-exec" {
     interpreter = ["bash", "-c"]
     command     = <<-EOT
-      export KUBECONFIG="$PWD"/rke2.yaml
+      export KUBECONFIG=rke2.yaml
       kubectl patch psp system-unrestricted-psp  -p '{"metadata": {"annotations":{"seccomp.security.alpha.kubernetes.io/allowedProfileNames": "*"}}}'
       kubectl patch psp global-unrestricted-psp  -p '{"metadata": {"annotations":{"seccomp.security.alpha.kubernetes.io/allowedProfileNames": "*"}}}'
       kubectl patch psp global-restricted-psp  -p '{"metadata": {"annotations":{"seccomp.security.alpha.kubernetes.io/allowedProfileNames": "*"}}}'
-      kubectl apply -f ./dependencies/ebs-sc.yaml
+      kubectl apply -f dependencies/aws/ebs-sc.yaml
     EOT
   }
 }
-
