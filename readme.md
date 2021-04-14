@@ -13,7 +13,10 @@ terraform init
 terraform apply
 export KUBECONFIG="$PWD"/rke2.yaml
 ```
-Kubeconfig is dumped into working directory (`./terraform`) as `rke2.yaml`
+Kubeconfig is dumped into working directory as `rke2.yaml`
+
+
+### EBS Storage Class is installed by default.
 
 For Local-Path Storage
 ```
