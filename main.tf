@@ -40,18 +40,19 @@ module "rke2" {
 
 module "agents" {
   source  = "git::https://github.com/rancherfederal/rke2-aws-tf.git//modules/agent-nodepool"
-  name                   = "generic"
-  vpc_id                 = data.aws_vpc.default.id
-  subnets                = [data.aws_subnet.default.id]
-  ami                    = var.ami
-  ssh_authorized_keys    = [tls_private_key.ssh.public_key_openssh]
-  tags                   = var.tags
-  asg                    = var.asg
-  instance_type          = var.agent_instance_type
-  block_device_mappings  = var.agent_storage
-  pre_userdata           = var.agent_pre_userdata
-  cluster_data           = module.rke2.cluster_data
-  enable_ccm             = var.enable_ccm
+  name                        = "generic"
+  vpc_id                      = data.aws_vpc.default.id
+  subnets                     = [data.aws_subnet.default.id]
+  ami                         = var.ami
+  ssh_authorized_keys         = [tls_private_key.ssh.public_key_openssh]
+  tags                        = var.tags
+  asg                         = var.asg
+  instance_type               = var.agent_instance_type
+  block_device_mappings       = var.agent_storage
+  # extra_block_device_mappings = [ var.agent_storage_extra ] 
+  pre_userdata                = var.agent_pre_userdata
+  cluster_data                = module.rke2.cluster_data
+  enable_ccm                  = var.enable_ccm
 }
 
 resource "aws_security_group_rule" "rke2_ssh" {

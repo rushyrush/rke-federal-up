@@ -42,6 +42,15 @@ variable "agent_storage" {
   }
 }
 
+# agent secondary disk
+# variable  "agent_storage_extra"  {
+#   default = {
+#     device_name = "/dev/xvdf"
+#     size        = 20
+#     type        = "gp2"
+#   }
+# }
+
 variable "agent_spot" {
   default = false
 }
