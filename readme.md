@@ -16,7 +16,7 @@ export KUBECONFIG="$PWD"/rke2.yaml
 Kubeconfig is dumped into working directory as `rke2.yaml`
 
 
-### EBS Storage Class is installed by default.
+### Optional storage provider options. AWS EBS CSI is installed by default.
 
 For Local-Path Storage
 ```
