@@ -17,7 +17,7 @@ variable "servers" {
 }
 
 variable "server_instance_type" {
-  default = "m5a.large"
+  default = "t3.medium"
 }
 
 variable "server_storage" {
@@ -29,7 +29,7 @@ variable "server_storage" {
 
 # agent config
 variable "agent_instance_type" {
-  default = "m5a.large"
+  default = "t3.medium"
 }
 
 variable "enable_autoscaler" {
