@@ -80,7 +80,7 @@ aws configure set default.region $(curl -s http://169.254.169.254/latest/meta-da
 
 # Tune vm sysctl for elasticsearch
 sysctl -w vm.max_map_count=524288
-echo 'vm.max_map_count=262144' > /etc/sysctl.d/vm-max_map_count.conf
+echo 'vm.max_map_count=524288' > /etc/sysctl.d/vm-max_map_count.conf
 
 # nfs-common install for longhorn RWX
 apt install nfs-common -y
