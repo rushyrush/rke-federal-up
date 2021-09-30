@@ -33,7 +33,7 @@ variable "agent_instance_type" {
 }
 
 variable "enable_autoscaler" {
-  default = false
+  default = true
 }
 
 variable "asg" {
