@@ -9,7 +9,7 @@ variable "cluster_name" {
 variable "rke2_version" {
   description = "Version to use for RKE2 server nodepool"
   type        = string
-  default     = "v1.20.6+rke2r1"
+  default     = "v1.20.15+rke2r2"
 }
 # server config
 variable "servers" {
