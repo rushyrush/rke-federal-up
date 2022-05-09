@@ -36,6 +36,7 @@ module "rke2" {
   block_device_mappings = var.server_storage
   enable_ccm            = var.enable_ccm
   controlplane_internal = var.controlplane_internal
+  servers               = var.servers
 }
 
 module "agents" {
